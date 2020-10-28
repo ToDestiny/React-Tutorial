@@ -4,8 +4,30 @@ import ReactDom from 'react-dom';
 // CSS
 import './index.css'
 
+// Setup vars
+const books = [
 
-// Stateless functionnal component
+  {
+    id: 1,
+    img: 'https://images-na.ssl-images-amazon.com/images/I/51zbaGLMMfL._SY415_BO1,204,203,200_.jpg',
+    author: 'Barack Obama',
+    title: 'Obama: An Intimate Portraits'
+  },
+  {
+    id: 2,
+    img: 'https://images-na.ssl-images-amazon.com/images/I/41aM4xOZxaL._SX277_BO1,204,203,200_.jpg',
+    author: 'George Orwell',
+    title: '1984'
+  },
+  {
+    id: 3,
+    img: 'https://images-na.ssl-images-amazon.com/images/I/513yGwokdcL._SX304_BO1,204,203,200_.jpg',
+    author: 'George R. R. Martin',
+    title: 'A Game of Thrones '
+  },
+];
+  
+  // Stateless functionnal component
 // Always return JSX
 
 // JSX Rules
@@ -21,30 +43,46 @@ import './index.css'
 function BookList() {
   return (
     <section className='booklist'>
-      <Book />
-      <Book />
-      <Book />
-      <Book />
-      <Book />
-      <Book />
+      {books.map((book) => {
+        return <Book key={book.id} {...book}></Book>
+      })}
     </section>
   )
 }
 
-const Book = () => {
+const Book = ({ img, title, author }) => {
+  //const Book = ({ img, title, author, children }) => {
+  // Or we can say props and destructure with props.img etc
+
+  // Also to get access to even more destructured props, I can author:{} on top
+  // const { img, title, author } = props;
+  
+  // EVENT BASICS
+  // attribute, eventHandler
+  // onClick, onMouseOver
+  const clickHandler = (e) => {
+    console.log(e);
+    console.log(e.target);
+    alert('hello world')
+  };
+
+  const complexExample = (author) => {
+    console.log(author)
+  };
+
   return (
     <article className='book'>
-    <Image />
-    <Title />
-    <Author/>
+      <img src={img} alt="" />
+      <h1 onClick={() => console.log(title)}>{title}</h1>
+      <h4>{author}</h4>
+      <button type="button" onClick={clickHandler}>
+        reference example
+      </button>
+      <button type='button' onClick={() => complexExample(author)}>
+        complex example
+      </button>
     </article>
   )
 }
-
-const Image = () => <img src="https://images-na.ssl-images-amazon.com/images/I/51zbaGLMMfL._SY415_BO1,204,203,200_.jpg" alt="" />;
-
-const Title = () => <h1>Obama: An Intimate Portrait</h1>;
-
-const Author = () => <h4 style={{color:'#617d98', fontSize:'0.75rem', marginTop:'0.25rem'}}>Barack Obama</h4>
 
 ReactDom.render(<BookList />, document.getElementById('root'));
